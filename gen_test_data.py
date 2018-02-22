@@ -15,7 +15,7 @@ width, height, n_len, n_class = 180, 60, 4, len(characters)
 # 数据量
 test_len = len(label_list)
 
-x_train = np.zeros([test_len, height, width], dtype=np.uint8)
+x_train = np.zeros([test_len, height, width,1], dtype=np.uint8)
 y_train = [np.zeros([test_len, n_class], dtype=np.uint8) for _ in range(n_len)]
 
 for i in range(test_len):
