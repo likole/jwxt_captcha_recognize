@@ -1,5 +1,5 @@
 import string
-from get_train_data import get_image_and_labels
+from data.get_train_data import get_image_and_labels
 from keras import Model
 from keras.layers import *
 from keras.utils import plot_model
@@ -39,15 +39,20 @@ x = Dropout(0.25)(x)
 x = [Dense(n_class, activation='softmax', name='c%d'%(i+1))(x) for i in range(4)]
 
 #模型
-model = Model(input=input_tensor, output=x)
+model = Model(inputs=input_tensor, outputs=x)
 
 model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 
-plot_model(model, to_file='model.png')
+plot_model(model, to_file='model2.png')
 
-model.fit_generator(get_image_and_labels(), samples_per_epoch=2000, nb_epoch=5,
+model.fit_generator(get_image_and_labels(), samples_per_epoch=1000, nb_epoch=5,
                     nb_worker=2, pickle_safe=True)
 
-model.save("model.h5")
+model.save("model2.h5")
+
+y_test=np.load("data/y_test")
+
+acc=model.evaluate(np.load("data/x_test"),[y_test[0],y_test[1],y_test[2],y_test[3]])
+print(acc)
