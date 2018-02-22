@@ -15,15 +15,16 @@ width, height, n_len, n_class = 180, 60, 4, len(characters)
 # 数据量
 train_len = len(label_list)
 
-x_train = np.zeros([train_len, height, width], dtype=np.uint8)
-y_train = [np.zeros([train_len, n_class], dtype=np.uint8) for _ in range(n_len)]
 
-for i in range(train_len):
-    label = label_list[i]
-    image = np.array(Image.open("/home/likole/Downloads/jwxt/train/" + label).convert('L'))
-    x_train[i, :] = image
-    for j, ch in enumerate(label):
-        y_train[j][i, characters.find(ch)] = 1
-
-np.save("x_train_2d.npy", x_train)
-np.save("y_train.npy", y_train)
+def gen(batch_size=32):
+    x = np.zeros([batch_size, height, width, 1])
+    y = [np.zeros([batch_size, n_class]) for _ in range(n_len)]
+    while True:
+        for i in range(batch_size):
+            label = label_list[np.random.randint(0, train_len)]
+            image = np.array(Image.open("/home/likole/Downloads/jwxt/train/" + label).convert('L'))
+            x[i, :] = image
+            for j, ch in enumerate(label):
+                y[j][i, :] = 0
+                y[j][i, characters.find(ch)] = 1
+        yield x, y
