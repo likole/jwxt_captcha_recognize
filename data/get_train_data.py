@@ -2,6 +2,7 @@ from PIL import Image
 import os
 import numpy as np
 import string
+import random
 from matplotlib import pyplot as plt
 
 # 获取验证码列表
@@ -18,11 +19,12 @@ train_len = len(label_list)
 
 
 def get_image_and_labels(batch_size=32):
+    random.shuffle(label_list)
     x = np.zeros([batch_size, height, width, 1])
     y = [np.zeros([batch_size, n_class]) for _ in range(n_len)]
     while True:
         for i in range(batch_size):
-            label = label_list[np.random.randint(0, train_len)]
+            label = label_list[random.randint(0, train_len-1)]
             image = np.array(Image.open("/home/likole/Downloads/jwxt/train/" + label).convert('L'))
             x[i, :] = image.reshape([height,width,1])
             for j, ch in enumerate(label):

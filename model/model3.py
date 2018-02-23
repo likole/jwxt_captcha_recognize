@@ -48,7 +48,7 @@ plot_model(model, to_file='model3.png')
 model.fit_generator(get_image_and_labels(), samples_per_epoch=10000, nb_epoch=1,
                     nb_worker=2, pickle_safe=True)
 
-model.save("model3.h5")
+model.save("model.h5")
 
 y_test=np.load("data/y_test.npy")
 
