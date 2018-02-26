@@ -1,0 +1,1 @@
+第一次接触python,代码写得相当乱,就当做"Hello world"吧~
